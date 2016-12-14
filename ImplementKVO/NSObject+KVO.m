@@ -199,9 +199,9 @@ static Class kvo_class(id self, SEL _cmd)
     Class clazz = object_getClass(self);
     NSString *clazzName = NSStringFromClass(clazz);
     SEL setterSelector = NSSelectorFromString(setterForGetter(key));
-    Method setterMethod = class_getInstanceMethod([self class], setterSelector);
+    Method setterMethod = class_getInstanceMethod(clazz, setterSelector);
     /*这里不应该抛出异常,因为系统的KVO是可以注册监听变量的(通过KVC赋值会触发,直接赋值不会触发),
-     所以我在这里
+     所以我在这里给变量增加了KVO支持.
      */
     if (!setterMethod) {
         //        NSString *reason = [NSString stringWithFormat:@"Object %@ does not have a setter for key %@", self, key];
